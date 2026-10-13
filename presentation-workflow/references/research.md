@@ -1,0 +1,9 @@
+# Research presentations
+
+Build the argument around the actual scientific question: question and comparison → method and measure → evidence → interpretation and limits. State what the results show about the compared conditions, variants, or hypotheses. A predictable effect of changing a plotting or analysis threshold may explain the method, but should not displace the research comparison as the headline.
+
+For each result page, identify the claim, evidence, calculation definition, and its limit. Check the figure against its notebook, code, and input data when those are available. Explain denominators, units, thresholds, frame selection, aggregation order, and uncertainty where they affect interpretation. Distinguish a schematic, a representative frame, and a summary across frames. If metrics are computed per frame and averaged, say that explicitly instead of using vague “time average.” Do not treat variation across frames as independent simulation replicates.
+
+Introduce specialized terms at the point they become necessary. Use a consistent simple example across adjacent explanation pages when it helps the audience follow the calculation. Place exact references near literature-supported choices, and state the scope of support: an example cutoff from another model is context, not direct validation of this model's cutoff. Do not infer lifetime, mechanical behavior, or physical spatial positions from a static network drawing alone. Keep observation, interpretation, and speculation distinct.
+
+For thesis, poster, or conference delivery, review whether the evidence actually supports each displayed conclusion and whether limitations are visible enough for the format. Keep detailed derivations in notes or supplementary material when the main slide needs only the definition and a worked intuition.

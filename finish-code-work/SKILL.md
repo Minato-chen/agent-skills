@@ -1,33 +1,35 @@
 ---
 name: finish-code-work
-description: Work on code projects and open source contributions with scoped changes, honest verification, collaboration tracking, and one Notion project page containing technical records and interview preparation. Use for coding tasks, PRs, releases, and completed project milestones.
+description: Implement and verify scoped code changes while protecting existing work, isolating all temporary testing, and cleaning generated artifacts. Use for bug fixes, features, refactoring requests, code reviews, and open source contributions; project summaries and interview preparation belong to the separate notion-project-summary skill.
 ---
 
 # Finish code work
 
-## Scope and implementation
+## Scope and baseline
 
-1. Read repository instructions, relevant code, issue or request, and existing tests. Identify a useful milestone and its acceptance criteria. Follow upstream conventions for contributions.
-2. Make focused changes. Preserve unrelated work and avoid unrelated refactors. Explain consequential design choices and compatibility implications.
-3. Add or update tests when behavior changes and tests meaningfully guard against regression. Run relevant checks. Inspect the final diff, status, generated files, and potential secrets. Never claim a check passed if it was not run.
-4. For open source work, read contribution rules and maintainer discussion. Prepare a reproducible explanation, link the issue where appropriate, respond to review with concrete changes, and distinguish submitted, approved, merged, and released states.
-5. Report what changed, why, verification evidence, limitations, and the next action. Do not treat a drafted patch or unsubmitted PR as a completed external contribution.
+1. Determine whether the user requests explanation, review, planning, implementation, or release. Discussion alone produces a proposal, not edits. Once implementation is authorized, complete the requested outcome without repeatedly seeking confirmation for routine steps.
+2. Read repository instructions, relevant code, requirements, and existing tests. Define acceptance criteria from the user's actual request; do not substitute an easier milestone for the requested result. Keep repository-specific commands and conventions in its AGENTS.md or equivalent.
+3. Inspect the initial branch, tracked changes, untracked files, and relevant tool versions. Preserve all pre-existing work. Do not reset, stash, revert, delete, or overwrite user changes merely to obtain a clean tree.
+4. Change only files necessary for the task. Avoid unrelated refactors, whole-repository formatting, dependency upgrades, lockfile churn, and generated-file changes. Do not add debug entry points, test buttons, fake data, or temporary instrumentation to production source for convenience.
 
-Put project-specific commands, architecture, and conventions in that repository's AGENTS.md or equivalent; follow those instructions when present.
+## Isolate testing
 
-## Milestone and Notion record
+1. Before running checks, identify where they write files and whether they start processes or modify persistent state. Create a unique task-owned temporary directory outside the working repository. Put ad hoc test scripts, fixtures, logs, screenshots, caches, coverage, and build outputs there; redirect tool outputs when supported.
+2. If a tool requires repository-local outputs or temporary source changes, run it in an isolated copy or worktree outside the working repository. Include the current intended changes and needed pre-existing work, not merely HEAD. Keep dependencies and configuration suitable for the check, and do not copy secrets unnecessarily. Report any material difference between the isolated environment and the actual project.
+3. Keep durable regression tests in the project's established test directory when they meaningfully protect changed behavior. Treat these as intentional deliverables, not disposable verification files. Follow existing embedded-test conventions only when appropriate and clearly include such changes in the final diff. Run tests with generated artifacts and mutable state isolated.
+4. Use disposable test storage and services. Do not run destructive checks against real user data, production resources, or shared state. Do not edit ignore rules merely to hide test pollution or install dependencies globally for convenience.
+5. Choose checks proportionate to the change. For UI work, inspect rendering and affected interactions; for engine projects, check project loading and relevant scenes; for libraries, exercise affected behavior and meaningful edge cases. Do not add tests that only mirror the implementation.
+6. Separate new regressions, baseline failures, and environment limitations. Fix task-related failures and rerun affected checks; do not weaken tests or change unrelated code to manufacture a passing result. Never claim checks passed when they were not run.
 
-At a meaningful completed milestone (for example a submitted PR, merged PR, published extension, released plugin, or finished feature), update the **existing single Notion page for that project**. Do not create separate technical and job-interview documents. Find the correct page by project identity and links; avoid duplicates. If no page exists, create one project page in the user's intended location only when that location is clear. Never pretend an unavailable Notion connection succeeded: prepare the content and report the blocker.
+## Cleanup and completion
 
-Keep these sections together on that page, updating relevant parts and preserving useful prior history:
+1. Track temporary paths and processes as they are created. Use guaranteed cleanup such as try/finally or shell traps where possible. On success, failure, or early termination, stop only task-owned processes and remove only confirmed task-owned temporary artifacts. On resuming an interrupted task, check for leftover owned artifacts before creating more.
+2. Preserve requested evidence as a named deliverable before deleting temporary outputs. Remove isolated copies or worktrees through the appropriate tool. Avoid broad deletion, repository-wide clean commands, or resetting tracked files as a cleanup shortcut.
+3. Compare final status against the initial baseline. Inspect the full diff, untracked and ignored outputs, generated files, dependency changes, and debug remnants. The final tree should contain intended deliverables and the user's original work. Report any cleanup failure or remaining task-owned artifact with its exact location; do not claim cleanup succeeded otherwise.
+4. Report what changed, why, observed verification, material limitations, and actual completion state. Keep small-task reports brief. If blocked, preserve useful progress and name the unresolved requirement.
 
-1. **项目概况** — repository/product link, role, goal, current state, milestone dates.
-2. **问题与实现** — original problem, evidence, approach, personal contribution, key decisions and tradeoffs.
-3. **验证与结果** — commands and outcomes actually observed, manual checks, PR/release links, feedback and measurable impact if supported. Separate submitted, merged, and released states.
-4. **团队协作** — people or roles involved, issue/PR discussion, feedback received, response, changes made, unresolved differences, and follow-up. Cite actual discussion; do not invent teamwork or shared ownership for a solo project.
-5. **面试表达** — a concise spoken account covering background, personal responsibility, technical challenge, decisions, results, and collaboration; likely follow-up questions with evidence-based answers. Tailor emphasis to the target role if known. Mark unverified impact and unfinished work honestly.
-6. **后续事项** — outstanding review, maintenance, and next steps.
+## Open source and external actions
 
-Verify external facts from the current repository, PR, release, and discussion before changing status. Add source links and dates. For later milestones, revise the same page and append a brief dated update so earlier states remain understandable. Avoid repetitive prose between the technical and interview sections.
+Read contribution rules and relevant maintainer discussion for upstream work. Prepare a reproducible issue/PR explanation and cite real discussion when relevant. Distinguish local changes, submitted PRs, approved PRs, merged changes, and releases. Drafting a reply is different from sending it; commits, pushes, messages, merges, and deployment follow the user's existing authorization and applicable environment rules.
 
-If the task ends before a meaningful milestone, give a concise progress report; do not label it complete or force a Notion entry. If Notion access or destination is unavailable, provide a ready-to-paste update and identify the page or destination needed. Never claim it was saved.
+Do not make Notion updates part of every code task. When project documentation or interview preparation is requested or already authorized, hand actual evidence to notion-project-summary; lack of Notion access does not invalidate completed code work.
